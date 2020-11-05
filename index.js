@@ -31,9 +31,12 @@ function init() {
                 "Remove Employee",
                 "View all Employees",
                 "Update Employee Role",
+                "View Manager Groups",
                 "Add Department",
+                "Remove Department",
                 "View all Departments",
                 "Add Roles",
+                "Remove Roles",
                 "View all Roles",
                 "Exit"
             ]
@@ -49,15 +52,23 @@ function init() {
                 break;
 
             case "View all Employees":
-                viewEmployees();
+                viewEmployee();
                 break;
 
             case "Update Employee Role":
-                updateRole();
+                updateEmployee();
+                break;
+
+            case "View Manager Groups":
+                viewManagerGroups();
                 break;
 
             case "Add Department":
                 addDepartment();
+                break;
+
+            case "Remove Deparment":
+                removeDepartment();
                 break;
 
             case "View all Departments":
@@ -66,6 +77,10 @@ function init() {
 
             case "Add Roles":
                 addRoles();
+                break;
+
+            case "Remove Roles":
+                removeRoles();
                 break;
 
             case "View all Roles":
@@ -77,4 +92,48 @@ function init() {
                 break;
         }
     })
+}
+
+function addEmployee() {
+
+}
+
+function removeEmployee() {
+
+}
+
+function viewEmployee() {
+
+}
+
+function updateEmployee() {
+
+}
+
+function viewManagerGroups() {
+
+}
+
+function addDepartment() {
+
+}
+
+function removeDepartment() {
+
+}
+
+function viewDepartment() {
+
+}
+
+function addRoles() {
+
+}
+
+function removeRoles() {
+
+}
+
+function viewRoles() {
+
 }
