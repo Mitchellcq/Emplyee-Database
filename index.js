@@ -27,27 +27,27 @@ function init() {
             message: "What would you like to do?",
             name: "init",
             choices: [
-                "Add Employee",
-                "Remove Employee",
+                "Add an Employee",
+                "Remove an Employee",
                 "View all Employees",
-                "Update Employee Role",
+                "Update an Employee's Role",
                 "View Manager Groups",
-                "Add Department",
-                "Remove Department",
+                "Add a Department",
+                "Remove a Department",
                 "View all Departments",
-                "Add Roles",
-                "Remove Roles",
+                "Add a Role",
+                "Remove a Role",
                 "View all Roles",
                 "Exit"
             ]
         }
     ]).then(res => {
         switch (res.init) {
-            case "Add Employee":
+            case "Add an Employee":
                 addEmployee();
                 break;
 
-            case "Remove Employee":
+            case "Remove an Employee":
                 removeEmployee();
                 break;
 
@@ -55,7 +55,7 @@ function init() {
                 viewEmployee();
                 break;
 
-            case "Update Employee Role":
+            case "Update an Employee's Role":
                 updateEmployee();
                 break;
 
@@ -63,11 +63,11 @@ function init() {
                 viewManagerGroups();
                 break;
 
-            case "Add Department":
+            case "Add a Department":
                 addDepartment();
                 break;
 
-            case "Remove Deparment":
+            case "Remove a Deparment":
                 removeDepartment();
                 break;
 
@@ -75,11 +75,11 @@ function init() {
                 viewDepartment();
                 break;
 
-            case "Add Roles":
+            case "Add a Role":
                 addRoles();
                 break;
 
-            case "Remove Roles":
+            case "Remove a Role":
                 removeRoles();
                 break;
 
@@ -96,44 +96,111 @@ function init() {
 
 function addEmployee() {
 
+    console.log("Inserting a new employee.\n");
+
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "First Name?",
+            name: "first_name",
+        },
+        {
+            type: "input",
+            message: "Last Name?",
+            name: "last_name"
+        },
+        {
+            type: "list",
+            message: "What is the employee's role?",
+            name: "role_id",
+            choices: [1, 2, 3]
+        },
+        {
+            type: "input",
+            message: "Who is their manager?",
+            name: "manager_id"
+        }
+    ])
+        .then(res => {
+            const query = connection.query(
+                "INSERT INTO employees SET ?",
+                res,
+                function (err, res) {
+                    if (err) throw err;
+                    console.log("Employee added!\n");
+
+                    init();
+                }
+            );
+        })
 }
 
 function removeEmployee() {
 
+    console.log("Removing employee.\n")
+
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Please enter the full name of the employee you would like to remove",
+            name: "employee",
+            choices: employeeList
+        },
+    ]).then(res => {
+        const query = connection.query()
+    })
 }
 
 function viewEmployee() {
+
+    console.log("Viewing all Employees.\n")
 
 }
 
 function updateEmployee() {
 
+    console.log("Updating Employee info.\n")
+
 }
 
 function viewManagerGroups() {
+
+    console.log("Viewing Manager group.\n")
 
 }
 
 function addDepartment() {
 
+    console.log("Inserting a new Department.\n")
+
 }
 
 function removeDepartment() {
+
+    console.log("Removing Department.\n")
 
 }
 
 function viewDepartment() {
 
+    console.log("Viewing all Departments.\n")
+
 }
 
 function addRoles() {
+
+    console.log("Inserting a new Role.\n")
 
 }
 
 function removeRoles() {
 
+    console.log("Removing Role.\n")
+
 }
 
 function viewRoles() {
+
+    console.log("Viewing all Roles.\n")
 
 }
