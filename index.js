@@ -38,5 +38,43 @@ function init() {
                 "Exit"
             ]
         }
-    ])
+    ]).then(res => {
+        switch (res.init) {
+            case "Add Employee":
+                addEmployee();
+                break;
+
+            case "Remove Employee":
+                removeEmployee();
+                break;
+
+            case "View all Employees":
+                viewEmployees();
+                break;
+
+            case "Update Employee Role":
+                updateRole();
+                break;
+
+            case "Add Department":
+                addDepartment();
+                break;
+
+            case "View all Departments":
+                viewDepartment();
+                break;
+
+            case "Add Roles":
+                addRoles();
+                break;
+
+            case "View all Roles":
+                viewRoles();
+                break;
+
+            case "Exit":
+                connection.end();
+                break;
+        }
+    })
 }
