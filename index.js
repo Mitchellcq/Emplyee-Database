@@ -3,14 +3,12 @@ const consoleTable = require('console.table');
 const inquirer = require('inquirer');
 const connection = mySQL.createConnection({
     host: "localhost",
-
     // Your port;
     port: 3306,
-
     // Your username
     user: "root",
-
-    password: "Bootcamp!",
+    //please ignore this password, I don't know how to change it now ^^
+    password: "Getfucked!123",
     database: "employee_DB"
 });
 
@@ -91,7 +89,7 @@ function init() {
                 connection.end();
                 break;
         }
-    })
+    });
 }
 
 function addEmployee() {
@@ -119,25 +117,32 @@ function addEmployee() {
             type: "input",
             message: "Who is their manager?",
             name: "manager_id"
-        }
-    ])
-        .then(res => {
-            const query = connection.query(
-                "INSERT INTO employees SET ?",
-                res,
-                function (err, res) {
-                    if (err) throw err;
-                    console.log("Employee added!\n");
+        },
+    ]).then(res => {
+        const query = connection.query(
+            "INSERT INTO employees SET ?",
+            res,
+            function (err, res) {
+                if (err) throw err;
+                console.log("Employee added.\n");
 
-                    init();
-                }
-            );
-        })
+                init();
+            });
+    });
 }
 
 function removeEmployee() {
 
-    console.log("Removing employee.\n")
+    console.log("Removing employee.\n");
+
+    let employeeList = [];
+
+    connection.query(
+        "SELECT employees.first_name, employees.last_name FROM employees", (err, res) => {
+            for (let i = 0; i < res.length; i++) {
+                employeeList.push(res[i].first_name + " " + res[i].last_name);
+            };
+        });
 
     inquirer.prompt([
         {
@@ -147,60 +152,107 @@ function removeEmployee() {
             choices: employeeList
         },
     ]).then(res => {
-        const query = connection.query()
-    })
+        const query = connection.query(
+            `DELETE FROM employees WHERE concat(first_name, ' ', last_name) = '${res.employee}'`,
+            function (res, err) {
+                if (err) throw err;
+                console.log("Employee removed.\n");
+
+                init();
+            });
+    });
 }
 
 function viewEmployee() {
 
-    console.log("Viewing all Employees.\n")
+    console.log("Viewing all Employees.\n");
 
+    connection.query(
+        "SELECT employees.first_name, employees.last_name, roles.title AS \"role\", managers.first_name AS \"manager\" FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN employees managers ON employees.manager_id = managers.id GROUP BY employees.id",
+        function (res, err) {
+            if (err) throw err;
+            console.table(res);
+            init;
+        });
 }
 
 function updateEmployee() {
 
-    console.log("Updating Employee info.\n")
+    console.log("Updating Employee info.\n");
 
+    connection.query("SELECT first_name, last_name, id FROM employees",
+        function (res, err) {
+            if (err) throw err;
+            let employees = res.map(employee => ({ name: employee.first_name + " " + employee.last_name, value: employee.id }));
+            inquirer.prompt([
+                {
+                    type: "list",
+                    name: "Name",
+                    message: "Which employee are you updating?",
+                    choices: employees,
+                },
+                {
+                    type: "input",
+                    message: "please enter their new role id",
+                    name: "role",
+                },
+            ]).then(res => {
+                connection.query(`UPDATE employees SET role_id = ${res.role} WHERE id = ${res.Name}`,
+                    function (res, err) {
+                        if (err) throw err;
+
+                        init();
+                    });
+            });
+        });
 }
 
 function viewManagerGroups() {
 
-    console.log("Viewing Manager group.\n")
+    console.log("Viewing Manager groups.\n");
 
+    connection.query("SELECT employees.first_name, employees.last_name, roles.title AS \"role\", managers.first_name AS \"manager\" FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN employees managers ON employees.manager_id = managers.id GROUP BY employees.manager_id",
+        function (res, err) {
+            if (err) throw err;
+            console.table(res);
+            init();
+        });
 }
 
 function addDepartment() {
 
-    console.log("Inserting a new Department.\n")
+    console.log("Inserting a new Department.\n");
+
+
 
 }
 
 function removeDepartment() {
 
-    console.log("Removing Department.\n")
+    console.log("Removing Department.\n");
 
 }
 
 function viewDepartment() {
 
-    console.log("Viewing all Departments.\n")
+    console.log("Viewing all Departments.\n");
 
 }
 
 function addRoles() {
 
-    console.log("Inserting a new Role.\n")
+    console.log("Inserting a new Role.\n");
 
 }
 
 function removeRoles() {
 
-    console.log("Removing Role.\n")
+    console.log("Removing Role.\n");
 
 }
 
 function viewRoles() {
 
-    console.log("Viewing all Roles.\n")
+    console.log("Viewing all Roles.\n");
 
 }

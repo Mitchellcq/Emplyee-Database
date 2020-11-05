@@ -1,0 +1,24 @@
+{
+  "name": "mitchellcq-assignment-wk-11",
+  "version": "1.0.0",
+  "description": "Employee Database CLI application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mitchellcq/Mitchellcq-assignment-wk-11.git"
+  },
+  "author": "Mitchellcq",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mitchellcq/Mitchellcq-assignment-wk-11/issues"
+  },
+  "homepage": "https://github.com/Mitchellcq/Mitchellcq-assignment-wk-11#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  }
+}
