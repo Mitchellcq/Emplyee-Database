@@ -1,6 +1,9 @@
 const mySQL = require("mysql");
 const consoleTable = require('console.table');
 const inquirer = require('inquirer');
+const Employee = require('./modules/employees');
+const Department = require('./modules/departments');
+const Role = require('./modules/roles');
 const connection = mySQL.createConnection({
     host: "localhost",
     // Your port;
@@ -245,82 +248,6 @@ function viewManagerGroups() {
         });
 }
 
-function addDepartment() {
-
-    console.log("Inserting a new Department.\n");
-
-    inquirer.prompt([
-        {
-            type: "input",
-            name: "name",
-            message: "New Department name",
-            validate: function (answer) {
-                if (answer.length < 1) {
-                    return console.log("Please enter a valid name");
-                }
-                return true;
-            },
-        }
-    ]).then(res => {
-        const query = connection.query(
-            "INSERT INTO departments SET ?",
-            {
-                name: res.name
-            },
-            function (res, err) {
-                if (err) throw err;
-                console.log("Department added.\n")
-                init();
-            });
-    });
-
-}
-
-function removeDepartment() {
-
-    console.log("Removing Department.\n");
-
-    let departmentList = [];
-
-    connection.query(
-        "SELECT departments.name FROM departments", (err, res) => {
-            res.forEach(department => {
-                departments.push(department);
-            });
-        });
-
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "department",
-            message: "Please select the employee you would like to remove",
-            choices: departmentList,
-        },
-    ]).then(res => {
-        const query = connection.query(
-            `DELETE FROM departments WHERE name = '${res.department}'`,
-            function (res, err) {
-                if (err) throw err;
-                console.log("Department removed.\n");
-                init();
-            });
-    });
-}
-
-function viewDepartment() {
-
-    console.log("Viewing all Departments.\n");
-
-    connection.query(
-        "SELECT * FROM departments",
-        function (err, res) {
-            if (err) throw err;
-            console.table(res);
-            init();
-        });
-}
-
-
 function addRoles() {
 
     console.log("Inserting a new Role.\n");
@@ -417,3 +344,81 @@ function viewRoles() {
         start();
     });
 }
+
+function addDepartment() {
+
+    console.log("Inserting a new Department.\n");
+
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "New Department name",
+            validate: function (answer) {
+                if (answer.length < 1) {
+                    return console.log("Please enter a valid name");
+                }
+                return true;
+            },
+        }
+    ]).then(res => {
+        const query = connection.query(
+            "INSERT INTO departments SET ?",
+            {
+                name: res.name
+            },
+            function (res, err) {
+                if (err) throw err;
+                console.log("Department added.\n")
+                init();
+            });
+    });
+
+}
+
+function removeDepartment() {
+
+    console.log("Removing Department.\n");
+
+    let departmentList = [];
+
+    connection.query(
+        "SELECT departments.name FROM departments", (err, res) => {
+            res.forEach(department => {
+                departments.push(department);
+            });
+        });
+
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "department",
+            message: "Please select the employee you would like to remove",
+            choices: departmentList,
+        },
+    ]).then(res => {
+        const query = connection.query(
+            `DELETE FROM departments WHERE name = '${res.department}'`,
+            function (res, err) {
+                if (err) throw err;
+                console.log("Department removed.\n");
+                init();
+            });
+    });
+}
+
+function viewDepartment() {
+
+    console.log("Viewing all Departments.\n");
+
+    connection.query(
+        "SELECT * FROM departments",
+        function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            init();
+        });
+}
+
+
+
